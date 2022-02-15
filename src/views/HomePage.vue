@@ -10,7 +10,8 @@
       <ion-grid>
         <ion-row>
           <ion-col size="2">
-
+            <ion-button @click="takePicture()"> 
+            </ion-button>
           </ion-col>
           <ion-col>
             <img id="start-button" src="assets/images/logo.png" alt="" style="width:100%;" />
@@ -29,11 +30,14 @@
 </template>
 
 <script lang="ts">
-import {IonPage, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol} from '@ionic/vue';
+import { IonPage, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
 import { defineComponent } from 'vue';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 export default defineComponent({
+
   name: 'HomePage',
+
   components: {
     IonPage,
     IonToolbar,
@@ -42,7 +46,19 @@ export default defineComponent({
     IonGrid,
     IonRow,
     IonCol
-  }
+  },
+  
+ methods: {
+   async takePicture() {
+    let image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Uri
+    });
+    console.log(image)
+   }
+}
+
 });
 </script>
 
