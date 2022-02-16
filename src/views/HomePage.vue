@@ -10,17 +10,46 @@
       <ion-grid>
         <ion-row>
           <ion-col size="2">
-            <ion-button @click="takePicture()"> 
-            </ion-button>
           </ion-col>
           <ion-col>
-            <img id="start-button" src="assets/images/logo.png" alt="" style="width:100%;" />
+            <ion-button class="w-100 bg-primary rounded" @click="takePicture()">
+              {{ contenidoBotonCamara }}
+            </ion-button>
           </ion-col>
           <ion-col size="2">
             
           </ion-col>
         </ion-row>
-      </ion-grid>
+
+        <ion-row>
+          <ion-col size="2">
+          </ion-col>
+          <ion-col>
+            <ion-button class="w-100 bg-primary rounded" @click="getPosition()">
+              {{ contenidoBotonUbicacion }}
+            </ion-button>
+          </ion-col>
+          <ion-col size="2">
+            
+          </ion-col>
+        </ion-row>
+
+        <ion-row v-if="point.lat != 0">
+          <ion-col size="1">
+            
+          </ion-col>
+          <ion-col>
+            {{ point.lat }}
+          </ion-col>
+          <ion-col>
+            {{ point.lon }}
+          </ion-col>
+          <ion-col size="1">
+            
+          </ion-col>
+        </ion-row>
+
+      </ion-grid> 
       
       <div id="game-board">
         <canvas id="my-canvas"></canvas>
@@ -33,10 +62,22 @@
 import { IonPage, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
 
 export default defineComponent({
 
   name: 'HomePage',
+
+  data() {
+    return {
+      contenidoBotonCamara: 'Camara',
+      contenidoBotonUbicacion: 'Ubicacion',
+      point: {
+        lat: 0,
+        lon: 0
+      }
+    };
+  },
 
   components: {
     IonPage,
@@ -49,15 +90,31 @@ export default defineComponent({
   },
   
  methods: {
-   async takePicture() {
-    let image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.Uri
-    });
-    console.log(image)
-   }
-}
+    async takePicture() {
+      let image = await Camera.getPhoto({
+          quality: 90,
+          allowEditing: false,
+          resultType: CameraResultType.Uri
+      });
+      console.log(image)
+    },
+
+    alert(){
+      window.alert('Hola clase');
+    },
+
+    async getPosition() {
+      let position = await Geolocation.getCurrentPosition();
+
+      let point = {
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+      };
+
+      this.point = point;
+      console.log(this.point);
+    }
+  }
 
 });
 </script>
