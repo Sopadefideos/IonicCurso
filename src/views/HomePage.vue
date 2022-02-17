@@ -1,9 +1,10 @@
 <template>
   <ion-page>
     <ion-toolbar class="text-center">
-      <router-link :to="{ name: 'PruebaHome' }">
-        <ion-title>Ir al home1</ion-title>
+      <router-link :to="{ name: 'Hombre' }">
+        <ion-title>Hombre</ion-title>
       </router-link>
+        <!--<ion-title router-link="/hombre">Ir al home1</ion-title>-->
     </ion-toolbar>
 
     <ion-content>
@@ -12,7 +13,7 @@
           <ion-col size="2">
           </ion-col>
           <ion-col>
-            <ion-button class="w-100 bg-primary rounded" @click="takePicture()">
+            <ion-button style="width:100%">
               {{ contenidoBotonCamara }}
             </ion-button>
           </ion-col>
@@ -25,7 +26,7 @@
           <ion-col size="2">
           </ion-col>
           <ion-col>
-            <ion-button class="w-100 bg-primary rounded" @click="getPosition()">
+            <ion-button style="width:100%" @click="getPosition()">
               {{ contenidoBotonUbicacion }}
             </ion-button>
           </ion-col>
@@ -68,17 +69,6 @@ export default defineComponent({
 
   name: 'HomePage',
 
-  data() {
-    return {
-      contenidoBotonCamara: 'Camara',
-      contenidoBotonUbicacion: 'Ubicacion',
-      point: {
-        lat: 0,
-        lon: 0
-      }
-    };
-  },
-
   components: {
     IonPage,
     IonToolbar,
@@ -114,7 +104,18 @@ export default defineComponent({
       this.point = point;
       console.log(this.point);
     }
-  }
+  },
+
+  data() {
+    return {
+      contenidoBotonCamara: 'Camara',
+      contenidoBotonUbicacion: 'Ubicacion',
+      point: {
+        lat: 0,
+        lon: 0
+      }
+    };
+  },
 
 });
 </script>
