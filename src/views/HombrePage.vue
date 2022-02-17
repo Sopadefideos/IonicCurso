@@ -1,18 +1,18 @@
 <template>
   <ion-page>
-    <ion-toolbar class="text-center">
-      <ion-title router-link="/home">Home</ion-title>
+    <ion-toolbar>
     </ion-toolbar>
-
     <ion-content>
       <h1>Hombre</h1>
   </ion-content>
+  <NavBar @click="reRender()"/>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonToolbar, IonContent, IonTitle } from '@ionic/vue';
+import { IonPage, IonContent } from '@ionic/vue';
 import { defineComponent } from 'vue';
+import NavBar from './partials/NavBar.vue'
 
 export default defineComponent({
 
@@ -20,10 +20,23 @@ export default defineComponent({
 
   components: {
     IonPage,
-    IonToolbar,
     IonContent,
-    IonTitle
-  }
+    NavBar
+  },
+
+  data(){
+    return {
+      index: 1,
+    };
+    
+  },
+
+  methods: {
+    reRender(){
+      this.index++
+    },
+  },
+  
 
 });
 </script>

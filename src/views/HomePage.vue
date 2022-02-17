@@ -1,19 +1,23 @@
 <template>
   <ion-page>
+    <!--
     <ion-toolbar class="text-center">
       <router-link :to="{ name: 'Hombre' }">
         <ion-title>Hombre</ion-title>
       </router-link>
-        <!--<ion-title router-link="/hombre">Ir al home1</ion-title>-->
+        <ion-title router-link="/hombre">Ir al home1</ion-title>
+    </ion-toolbar>
+    -->
+    <ion-toolbar>
     </ion-toolbar>
 
-    <ion-content>
+    <ion-content class="no-scroll">
       <ion-grid>
         <ion-row>
           <ion-col size="2">
           </ion-col>
           <ion-col>
-            <ion-button style="width:100%">
+            <ion-button style="width:100%" @click="takePicture()">
               {{ contenidoBotonCamara }}
             </ion-button>
           </ion-col>
@@ -50,20 +54,18 @@
           </ion-col>
         </ion-row>
 
-      </ion-grid> 
-      
-      <div id="game-board">
-        <canvas id="my-canvas"></canvas>
-      </div>
+      </ion-grid>
   </ion-content>
+  <NavBar @click="reRender()"/>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
+import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
+import NavBar from './partials/NavBar.vue';
 
 export default defineComponent({
 
@@ -71,15 +73,19 @@ export default defineComponent({
 
   components: {
     IonPage,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonGrid,
     IonRow,
-    IonCol
+    IonCol,
+    NavBar,
+    IonButton
   },
   
  methods: {
+    reRender(){
+      this.index++
+    },
+
     async takePicture() {
       let image = await Camera.getPhoto({
           quality: 90,
@@ -108,6 +114,7 @@ export default defineComponent({
 
   data() {
     return {
+      index: 1,
       contenidoBotonCamara: 'Camara',
       contenidoBotonUbicacion: 'Ubicacion',
       point: {
