@@ -1,6 +1,7 @@
 <template>
   <ion-footer>
     <ion-toolbar>
+      {{point}}
       <ion-grid>
         <ion-row>
           <ion-col id="hombre" router-link="/hombre" @click="changeColor(1)" class="text-center">
@@ -30,6 +31,8 @@ export default{
     IonRow,
     IonCol
   },
+  
+  props: ['point'],
 
   methods:{
     changeColor(component: number){

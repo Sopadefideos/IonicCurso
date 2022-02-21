@@ -56,7 +56,7 @@
 
       </ion-grid>
   </ion-content>
-  <NavBar @click="reRender()"/>
+  <NavBar v-for="i in 3" :key="i" :point=point @click="reRender()"/>
   </ion-page>
 </template>
 
