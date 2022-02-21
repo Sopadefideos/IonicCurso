@@ -56,7 +56,7 @@
 
       </ion-grid>
   </ion-content>
-  <NavBar v-for="i in 3" :key="i" :point=point @click="reRender()"/>
+  <NavBar v-for="item in products" :key="item" :point=item @click="reRender()"/>
   </ion-page>
 </template>
 
@@ -66,6 +66,7 @@ import { defineComponent } from 'vue';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
 import NavBar from './partials/NavBar.vue';
+import axios from 'axios'
 
 export default defineComponent({
 
@@ -79,6 +80,17 @@ export default defineComponent({
     IonCol,
     NavBar,
     IonButton
+  },
+
+  mounted(){
+    const config = {
+        headers: { Authorization: `Bearer 1|PwNKEhKC0GDPVzdpOkSYdOvTg2oia1CpRCKClNoa` }
+    };
+    
+    axios.get('https://sopadefideos.es/api/products/men', config).then((response) =>{
+      this.products = response.data.data;
+      console.log(this.products);
+    });
   },
   
  methods: {
@@ -120,7 +132,8 @@ export default defineComponent({
       point: {
         lat: 0,
         lon: 0
-      }
+      },
+      products: []
     };
   },
 

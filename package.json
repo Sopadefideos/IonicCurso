@@ -22,8 +22,10 @@
     "@ionic/pwa-elements": "^3.1.1",
     "@ionic/vue": "^6.0.0",
     "@ionic/vue-router": "^6.0.0",
+    "axios": "^0.26.0",
     "core-js": "^3.6.5",
     "vue": "^3.2.21",
+    "vue-axios": "^3.4.1",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
