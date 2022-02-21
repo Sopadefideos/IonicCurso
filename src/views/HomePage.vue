@@ -56,7 +56,7 @@
 
       </ion-grid>
   </ion-content>
-  <NavBar v-for="item in products" :key="item" :point=item @click="reRender()"/>
+  <NavBar v-for="item in products" :key="item" :products=item @click="reRender()"/>
   </ion-page>
 </template>
 
@@ -91,6 +91,7 @@ export default defineComponent({
       this.products = response.data.data;
       console.log(this.products);
     });
+
   },
   
  methods: {

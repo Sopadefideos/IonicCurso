@@ -1,7 +1,8 @@
 <template>
   <ion-footer>
     <ion-toolbar>
-      {{point}}
+      {{products.description}}
+      <img :src=products.img_url alt="">
       <ion-grid>
         <ion-row>
           <ion-col id="hombre" router-link="/hombre" @click="changeColor(1)" class="text-center">
@@ -32,7 +33,7 @@ export default{
     IonCol
   },
   
-  props: ['point'],
+  props: ['products'],
 
   methods:{
     changeColor(component: number){
