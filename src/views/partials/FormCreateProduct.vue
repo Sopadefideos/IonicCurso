@@ -107,12 +107,12 @@ export default defineComponent({
       let image = await Camera.getPhoto({
           quality: 90,
           allowEditing: false,
-          resultType: CameraResultType.Base64
+          resultType: CameraResultType.DataUrl
       });
       this.foto = false
       this.submit = true;
-      console.log(image);
-      this.form.img = String(image.base64String);
+      this.form.img = String(image.dataUrl);
+      //this.form.img = image;
       console.log(this.form.img);
     },
 
@@ -151,24 +151,41 @@ export default defineComponent({
         });
     },
 
+
     async sendData(){
       console.log(this.form.img);
+      //METODO DE LECTURA DE dataUrl A TIPO FILE
+      const dataURLtoFile = (dataurl:string, filename:string) => {
+        const arr = dataurl.split(',')
+        const mime = arr[0].match(/:(.*?);/)![1]
+        const bstr = atob(arr[1])
+        let n = bstr.length
+        const u8arr = new Uint8Array(n)
+        while (n) {
+          u8arr[n - 1] = bstr.charCodeAt(n - 1)
+          n -= 1 // to make eslint happy
+        }
+        return new File([u8arr], filename, { type: mime })
+      }
+
+      const file = dataURLtoFile(this.form.img, 'sopadefideos_product_img');
       var data = new FormData
       data.append('name', this.form.name);
       data.append('description', this.form.description);
       data.append('price', this.form.price);
       data.append('stock', this.form.stock);
       data.append('gender', this.form.gender);
-      //data.append('img', this.form.img);
+      data.append('img', file, file.name)
       const config = {
         headers: { 
           Authorization: `Bearer 1|PwNKEhKC0GDPVzdpOkSYdOvTg2oia1CpRCKClNoa`,
-          //'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',
           'enctype': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*',
           }
       };
-    
-      axios.post('https://sopadefideos.es/api/products/create', this.form, config).then((response) =>{
+
+      axios.post('https://sopadefideos.es/api/products/create', data, config).then((response) =>{
         console.log(response);
       });
     }
