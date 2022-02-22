@@ -11,61 +11,20 @@
     <ion-toolbar>
     </ion-toolbar>
 
-    <ion-content class="no-scroll">
-      <ion-grid>
-        <ion-row>
-          <ion-col size="2">
-          </ion-col>
-          <ion-col>
-            <ion-button style="width:100%" @click="takePicture()">
-              {{ contenidoBotonCamara }}
-            </ion-button>
-          </ion-col>
-          <ion-col size="2">
-            
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col size="2">
-          </ion-col>
-          <ion-col>
-            <ion-button style="width:100%" @click="getPosition()">
-              {{ contenidoBotonUbicacion }}
-            </ion-button>
-          </ion-col>
-          <ion-col size="2">
-            
-          </ion-col>
-        </ion-row>
-
-        <ion-row v-if="point.lat != 0">
-          <ion-col size="1">
-            
-          </ion-col>
-          <ion-col>
-            {{ point.lat }}
-          </ion-col>
-          <ion-col>
-            {{ point.lon }}
-          </ion-col>
-          <ion-col size="1">
-            
-          </ion-col>
-        </ion-row>
-
-      </ion-grid>
+    <ion-content>
+      <FormCreateProduct/>
   </ion-content>
-  <NavBar v-for="item in products" :key="item" :products=item @click="reRender()"/>
+  <NavBar @click="reRender()"/>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonButton } from '@ionic/vue';
+import { IonPage, IonContent } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
 import NavBar from './partials/NavBar.vue';
+import FormCreateProduct from './partials/FormCreateProduct.vue';
 import axios from 'axios'
 
 export default defineComponent({
@@ -75,11 +34,8 @@ export default defineComponent({
   components: {
     IonPage,
     IonContent,
-    IonGrid,
-    IonRow,
-    IonCol,
     NavBar,
-    IonButton
+    FormCreateProduct
   },
 
   mounted(){

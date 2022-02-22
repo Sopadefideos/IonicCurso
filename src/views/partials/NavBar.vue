@@ -1,8 +1,6 @@
 <template>
   <ion-footer>
     <ion-toolbar>
-      {{products.description}}
-      <img :src=products.img_url alt="">
       <ion-grid>
         <ion-row>
           <ion-col id="hombre" router-link="/hombre" @click="changeColor(1)" class="text-center">
@@ -24,7 +22,7 @@
 import { IonFooter, IonToolbar, IonGrid, IonRow, IonCol } from '@ionic/vue';
 
 export default{
-  name: 'NavBar',
+  name: 'FormCreateProduct',
   components: {
     IonFooter,
     IonToolbar,
@@ -33,7 +31,6 @@ export default{
     IonCol
   },
   
-  props: ['products'],
 
   methods:{
     changeColor(component: number){
