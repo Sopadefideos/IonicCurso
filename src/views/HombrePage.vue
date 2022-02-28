@@ -3,7 +3,7 @@
     <ion-toolbar>
     </ion-toolbar>
     <ion-content>
-      <h1>Hombre</h1>
+      <ProductCard v-for="item in productos" :key="item" :producto=item />
   </ion-content>
   <NavBar @click="reRender()"/>
   </ion-page>
@@ -13,6 +13,8 @@
 import { IonPage, IonContent } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import NavBar from './partials/NavBar.vue'
+import ProductCard from './partials/ProductCard.vue'
+import axios from 'axios'
 
 export default defineComponent({
 
@@ -21,21 +23,27 @@ export default defineComponent({
   components: {
     IonPage,
     IonContent,
-    NavBar
+    NavBar,
+    ProductCard
   },
 
   data(){
     return {
       index: 1,
+      productos : []
     };
     
   },
 
-  methods: {
-    reRender(){
-      this.index++
-    },
-  },
+  beforeCreate(){
+    const config = {
+        headers: { Authorization: `Bearer 1|PwNKEhKC0GDPVzdpOkSYdOvTg2oia1CpRCKClNoa` }
+    };
+    axios.get('https://sopadefideos.es/api/products/men', config).then((response) => {
+      this.productos = response.data.data
+      console.log(this.productos);
+    });
+  }
   
 
 });

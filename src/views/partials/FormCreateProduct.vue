@@ -107,7 +107,9 @@ export default defineComponent({
       let image = await Camera.getPhoto({
           quality: 90,
           allowEditing: false,
-          resultType: CameraResultType.DataUrl
+          resultType: CameraResultType.DataUrl,
+          width: 1000,
+          height: 1000
       });
       this.foto = false
       this.submit = true;
@@ -118,11 +120,12 @@ export default defineComponent({
 
     async deletePicture(){
       this.foto = true;
+      this.submit = false;
       console.log(this.form);
       this.forceRerenderPhoto();
       this.forceRerenderSubmit();
     },
-
+    
     forceRerenderPhoto() {
         // Removing my-component from the DOM
         var component = document.getElementById('componentPhoto')!;
@@ -136,26 +139,23 @@ export default defineComponent({
           this.foto = true;
         });
     },
-
+    
     forceRerenderSubmit() {
         // Removing my-component from the DOM
         var component = document.getElementById('componentSubmit')!;
         document.getElementById('componentSubmit')!.remove();
-        this.submit = false;
+        this.submit = true;
 
         nextTick(() => {
           var divComponent = document.getElementById('updateComponentSubmit');
           divComponent!.appendChild(component);
           console.log(divComponent);
-          this.submit = true;
+          this.submit = false;
         });
     },
 
-
-    async sendData(){
-      console.log(this.form.img);
-      //METODO DE LECTURA DE dataUrl A TIPO FILE
-      const dataURLtoFile = (dataurl:string, filename:string) => {
+    //METODO DE LECTURA DE dataUrl A TIPO FILE
+      dataURLtoFile : (dataurl:string, filename:string) => {
         const arr = dataurl.split(',')
         const mime = arr[0].match(/:(.*?);/)![1]
         const bstr = atob(arr[1])
@@ -166,16 +166,21 @@ export default defineComponent({
           n -= 1 // to make eslint happy
         }
         return new File([u8arr], filename, { type: mime })
-      }
+      },
 
-      const file = dataURLtoFile(this.form.img, 'sopadefideos_product_img');
-      var data = new FormData
+    async sendData(){
+      console.log(this.form.img);
+      
+      const file = this.dataURLtoFile(this.form.img, 'sopadefideos_product_img');
+
+      var data = new FormData;
       data.append('name', this.form.name);
       data.append('description', this.form.description);
       data.append('price', this.form.price);
       data.append('stock', this.form.stock);
       data.append('gender', this.form.gender);
-      data.append('img', file, file.name)
+      data.append('img', file, file.name);
+
       const config = {
         headers: { 
           Authorization: `Bearer 1|PwNKEhKC0GDPVzdpOkSYdOvTg2oia1CpRCKClNoa`,
@@ -187,6 +192,7 @@ export default defineComponent({
 
       axios.post('https://sopadefideos.es/api/products/create', data, config).then((response) =>{
         console.log(response);
+        location.reload();
       });
     }
   },
