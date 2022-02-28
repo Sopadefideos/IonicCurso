@@ -15,13 +15,16 @@
             </ion-row>
             
           </ion-card-header>
-
-          <ion-card-content>
-            <ion-card-subtitle>{{producto.description}}</ion-card-subtitle>
-          </ion-card-content>
         </ion-col>
         <ion-col>
           <img class="h-100" :src=producto.img_url alt="">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-card-content>
+            <ion-card-subtitle>{{producto.description}}</ion-card-subtitle>
+          </ion-card-content>
         </ion-col>
       </ion-row>
       <ion-row>
