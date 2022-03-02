@@ -95,9 +95,10 @@ export default defineComponent({
         if(data.value <= this.producto.stock){
           var cantidad = data.value
           var product = JSON.stringify(this.producto);
+          var itererator = 1;
           this.$router.push({
             name: "Carrito", //use name for router push
-            params: { cantidad, product }
+            params: { cantidad, product, itererator }
           });
         }else{
           Dialog.alert({

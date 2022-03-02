@@ -3,7 +3,7 @@
     <ion-toolbar>
     </ion-toolbar>
     <ion-content>
-      <ProductCard v-for="(item) in productos" :key=item :producto=item />
+      <ProductCard v-for="(item) in products" :key=item :producto=item.product />
   </ion-content>
   <NavBar @click="reRender()"/>
   </ion-page>
@@ -29,28 +29,35 @@ export default defineComponent({
   },
 
   data(){
+    const products: any[] = [];
     return {
-      index: 1,
-      productos: []
+      products,
     };
     
   },
 
-  beforeCreate(){
-    if (typeof this.$route.params.product !== 'undefined'){
+   updated(){
+    if (this.$route.params.itererator == '1'){
+      this.$route.params.itererator = '0';
       var stringJson = String(this.$route.params.product);
-      var productJson = JSON.parse(stringJson);
 
-      var product = {
-        'cantidad': this.$route.params.cantidad,
-        'product' : productJson,
-      }
+      this.includeProducts(String(this.$route.params.cantidad) ,stringJson);
 
-      //this.productos.push(product);
-
-      console.log(product);
+      console.log(this.products);
     }
   },
+
+  methods:{
+    async includeProducts(cantidad: string, json: string){
+      console.log('estoy en includeProducts()')
+      var productJson = JSON.parse(json);
+      var product = {
+        'cantidad': cantidad,
+        'product': productJson,
+      }
+      this.products.push(product)
+    }
+  }
   
 
 });
