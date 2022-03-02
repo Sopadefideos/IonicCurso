@@ -4,6 +4,9 @@
     <ion-toolbar>
     </ion-toolbar>
     <ion-content>
+      <ion-refresher class="bg-white" slot="fixed" @ionRefresh="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <ProductCard v-for="(item) in productos" :key=item :producto=item />
   </ion-content>
   <NavBar @click="reRender()"/>
@@ -11,11 +14,12 @@
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent, IonToolbar, IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/vue';
+import { IonPage, IonContent, IonToolbar, IonRefresher, IonRefresherContent } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import NavBar from './partials/NavBar.vue'
 import ProductCard from './partials/ProductCard.vue'
 import FabButtonCart from './partials/FabButtonCart.vue'
+import { chevronDownCircleOutline } from 'ionicons/icons'
 import axios from 'axios'
 
 export default defineComponent({
@@ -28,7 +32,9 @@ export default defineComponent({
     NavBar,
     ProductCard,
     IonToolbar,
-    FabButtonCart
+    FabButtonCart,
+    IonRefresher,
+    IonRefresherContent
   },
 
   data(){
@@ -39,14 +45,30 @@ export default defineComponent({
     
   },
 
-  beforeCreate(){
-    const config = {
+  mounted(){
+    this.getData();
+  },
+
+  methods:{
+    doRefresh(event: any){
+      console.log('Begin async operation');
+      setTimeout(() => {
+        console.log('Async operation has ended');
+        this.getData();
+        event.target.complete();
+      }, 2000);
+      return { chevronDownCircleOutline }
+    },
+
+    getData(){
+      const config = {
         headers: { Authorization: `Bearer 1|PwNKEhKC0GDPVzdpOkSYdOvTg2oia1CpRCKClNoa` }
-    };
-    axios.get('https://sopadefideos.es/api/products/men', config).then((response) => {
-      this.productos = response.data.data;
-      console.log(this.productos);
-    });
+      };
+      axios.get('https://sopadefideos.es/api/products/men', config).then((response) => {
+        this.productos = response.data.data;
+        console.log(this.productos);
+      });
+    }
   }
   
 

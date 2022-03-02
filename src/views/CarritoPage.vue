@@ -3,6 +3,9 @@
     <ion-toolbar>
     </ion-toolbar>
     <ion-content>
+      <ion-refresher class="bg-white" slot="fixed" @ionRefresh="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <ProductCard v-for="(item) in products" :key=item :producto=item.product />
   </ion-content>
   <NavBar @click="reRender()"/>
@@ -10,7 +13,8 @@
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent, IonToolbar } from '@ionic/vue';
+import { IonPage, IonContent, IonToolbar, IonRefresher, IonRefresherContent } from '@ionic/vue';
+import { chevronDownCircleOutline } from 'ionicons/icons'
 import { defineComponent } from 'vue';
 import NavBar from './partials/NavBar.vue'
 import ProductCard from './partials/ProductCard.vue'
@@ -26,6 +30,8 @@ export default defineComponent({
     NavBar,
     ProductCard,
     IonToolbar,
+    IonRefresher,
+    IonRefresherContent
   },
 
   data(){
@@ -57,6 +63,17 @@ export default defineComponent({
       }
       this.products.push(product)
     }
+  },
+
+  setup() {
+    const doRefresh = (event: any) => {
+      console.log('Begin async operation');
+      setTimeout(() => {
+        console.log('Async operation has ended');
+        event.target.complete();
+      }, 2000);
+    }
+    return { chevronDownCircleOutline, doRefresh }
   }
   
 
