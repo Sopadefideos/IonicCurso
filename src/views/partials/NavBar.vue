@@ -9,7 +9,7 @@
           <ion-col id="home" router-link="/home" @click="changeColor(2)" class="text-center">
             <ion-icon style="font-size:8vw" name="bag-add"></ion-icon>
           </ion-col>
-          <ion-col id="mujer" @click="changeColor(3)" class="text-center">
+          <ion-col id="mujer" router-link="/mujer" @click="changeColor(3)" class="text-center">
             <ion-icon style="font-size:8vw" name="female-outline"></ion-icon>
           </ion-col>
         </ion-row>

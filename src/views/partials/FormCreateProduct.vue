@@ -2,7 +2,7 @@
   <ion-footer>
     <ion-toolbar>
       <ion-grid>
-        <ion-row>
+        <ion-row class="my-2">
           <ion-col>
             <ion-item>
               <ion-label position="stacked">Nombre</ion-label>
@@ -10,7 +10,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row class="my-2">
           <ion-col>
             <ion-item>
               <ion-label position="stacked">Descripcion</ion-label>
@@ -18,7 +18,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row class="my-2">
           <ion-col>
             <ion-item>
               <ion-label position="stacked">Precio</ion-label>
@@ -26,7 +26,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row class="my-2">
           <ion-col>
             <ion-item>
               <ion-label position="stacked">Stock</ion-label>
@@ -34,19 +34,19 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row class="my-2">
           <ion-col>
-            <ion-item>
-              <ion-label position="stacked">Genero</ion-label>
-              <ion-select v-model="form.gender">
-                <ion-select-option value="m">Hombre</ion-select-option>
-                <ion-select-option value="w">Mujer</ion-select-option>
-              </ion-select>
+            <ion-item tappable>
+              <ion-label position="stacked">Gender</ion-label>
+              <select v-model="form.gender" class="w-100 bg-white border-0">
+                <option value="w">Mujer</option>
+                <option value="m">Hombre</option>
+              </select>
             </ion-item>
           </ion-col>
         </ion-row>
 
-        <ion-row>
+        <ion-row class="my-2">
           <ion-col>
             <div id="updateComponentPhoto">
               <div id="componentPhoto">
@@ -64,11 +64,11 @@
           </ion-col>
         </ion-row>
 
-        <ion-row>
+        <ion-row class="mt-5">
           <ion-col>
             <div id="updateComponentSubmit">
               <div id="componentSubmit">
-                <button type="submit" v-if="submit == true" class="p-1 bg-primary rounded" style="width:100%" @click="sendData()">
+                <button type="submit" v-if="submit == true" class="p-3 bg-primary rounded" style="width:100%" @click="sendData()">
                   Enviar
                 </button>
               </div>
@@ -81,8 +81,9 @@
 </template>
 
 <script lang="ts">
-import { IonFooter, IonToolbar, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption } from '@ionic/vue';
+import { IonFooter, IonToolbar, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonInput } from '@ionic/vue';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { ActionSheet, ActionSheetButtonStyle } from '@capacitor/action-sheet';
 import { defineComponent } from 'vue';
 import { nextTick } from 'vue'
 import axios from 'axios'
@@ -98,8 +99,6 @@ export default defineComponent({
     IonItem,
     IonLabel,
     IonInput,
-    IonSelect,
-    IonSelectOption
   },
 
   methods:{
@@ -111,6 +110,7 @@ export default defineComponent({
           width: 1000,
           height: 1000
       });
+      
       this.foto = false
       this.submit = true;
       this.form.img = String(image.dataUrl);
@@ -183,16 +183,19 @@ export default defineComponent({
 
       const config = {
         headers: { 
-          Authorization: `Bearer 1|PwNKEhKC0GDPVzdpOkSYdOvTg2oia1CpRCKClNoa`,
+          'Authorization': `Bearer 1|PwNKEhKC0GDPVzdpOkSYdOvTg2oia1CpRCKClNoa`,
           'Content-Type': 'multipart/form-data',
           'enctype': 'multipart/form-data',
           'Access-Control-Allow-Origin': '*',
-          }
+          'Accept': 'applicatioon/json'
+        }
       };
 
       axios.post('https://sopadefideos.es/api/products/create', data, config).then((response) =>{
         console.log(response);
         location.reload();
+      }).catch(function (error) {
+        window.alert(error);
       });
     }
   },

@@ -29,7 +29,7 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button color="primary" expand="block">Añadir <ion-icon name="cart-outline"></ion-icon></ion-button>
+          <ion-button color="primary" expand="block" @click="addCart()">Añadir <ion-icon name="cart-outline"></ion-icon></ion-button>
         </ion-col>
         <ion-col>
           <ion-button color="danger" expand="block" @click="deleteProduct()">Eliminar</ion-button>
@@ -41,9 +41,10 @@
 </template>
 
 <script lang="ts">
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonGrid, IonCol, IonRow } from '@ionic/vue';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonGrid, IonCol, IonRow, IonButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import axios from 'axios'
+import { Dialog } from '@capacitor/dialog';
 
 export default defineComponent({
   name: 'ProductCard',
@@ -55,7 +56,8 @@ export default defineComponent({
     IonCardTitle,
     IonGrid,
     IonCol,
-    IonRow
+    IonRow,
+    IonButton
   },
 
   props:[
@@ -65,11 +67,44 @@ export default defineComponent({
   methods:{
     deleteProduct(){
       const config = {
-        headers: { Authorization: `Bearer 1|PwNKEhKC0GDPVzdpOkSYdOvTg2oia1CpRCKClNoa` }
+        headers: { 
+          'Authorization': `Bearer 1|PwNKEhKC0GDPVzdpOkSYdOvTg2oia1CpRCKClNoa`,
+          'Content-Type': 'multipart/form-data',
+          'enctype': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*',
+          'Accept': 'applicatioon/json'
+        }
       };
       axios.delete('https://sopadefideos.es/api/products/delete/'+this.producto.id, config).then((response) => {
         console.log(response);
         location.reload();
+      })
+    },
+
+    addCart(){
+      const value = Dialog.prompt({
+        title: 'Hello',
+        message: `¿Cuantos productos desea añadir?`,
+        inputPlaceholder: '2',
+        okButtonTitle: 'Añadir al carrito',
+        cancelButtonTitle: 'Cancelar'
+      });
+
+      value.then((data) =>{
+        console.log(data.value);
+        if(data.value <= this.producto.stock){
+          var cantidad = data.value
+          var product = JSON.stringify(this.producto);
+          this.$router.push({
+            name: "Carrito", //use name for router push
+            params: { cantidad, product }
+          });
+        }else{
+          Dialog.alert({
+            title: 'Error en el Stock',
+            message: 'No disponemos de esa cantidad de producto para ofrecerle.',
+          });
+        }
       })
     }
   }

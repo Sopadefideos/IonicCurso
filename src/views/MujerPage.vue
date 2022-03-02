@@ -20,7 +20,7 @@ import axios from 'axios'
 
 export default defineComponent({
 
-  name: 'HombrePage',
+  name: 'MujerPage',
 
   components: {
     IonPage,
@@ -43,7 +43,7 @@ export default defineComponent({
     const config = {
         headers: { Authorization: `Bearer 1|PwNKEhKC0GDPVzdpOkSYdOvTg2oia1CpRCKClNoa` }
     };
-    axios.get('https://sopadefideos.es/api/products/men', config).then((response) => {
+    axios.get('https://sopadefideos.es/api/products/women', config).then((response) => {
       this.productos = response.data.data;
       console.log(this.productos);
     });
